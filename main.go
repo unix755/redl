@@ -8,8 +8,8 @@ import (
 	"os"
 	"redl/internal"
 
+	"github.com/unix755/xtools/xApp"
 	"github.com/unix755/xtools/xDownloader"
-	"github.com/unix755/xtools/xToolbox"
 	"github.com/urfave/cli/v3"
 )
 
@@ -150,7 +150,7 @@ func main() {
 
 			// 进行下载文件的情况
 			if downloadLink != "" {
-				_, err = xToolbox.CheckToolbox([]string{"curl"})
+				_, err = xApp.CheckToolbox([]string{"curl"})
 				if err != nil {
 					err = xDownloader.Download(downloadLink, output, "")
 					if err != nil {
