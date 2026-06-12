@@ -17,6 +17,7 @@ func main() {
 	var github string
 	var gitlab string
 	var sourceforge string
+	var codeberg string
 	var tagName string
 	var includedParts []string
 	var excludedParts []string
@@ -41,6 +42,12 @@ func main() {
 			Aliases:     []string{"sf"},
 			Usage:       "set sourceforge rss url (example: https://sourceforge.net/projects/mpv-player-windows/rss?path=/64bit)",
 			Destination: &sourceforge,
+		},
+		&cli.StringFlag{
+			Name:        "codeberg",
+			Aliases:     []string{"cb"},
+			Usage:       "set codeberg repo (example: librewolf/bsys6)",
+			Destination: &codeberg,
 		},
 		&cli.StringFlag{
 			Name:        "tag",
@@ -81,7 +88,7 @@ func main() {
 
 	cmd := &cli.Command{
 		Usage:   "Release Download Tool",
-		Version: "v2.10",
+		Version: "v2.11",
 		Flags:   flags,
 		Action: func(ctx context.Context, cmd *cli.Command) (err error) {
 			var downloadLink string
@@ -131,6 +138,25 @@ func main() {
 					return errors.New("sourceforge does not support searching by tag name")
 				} else {
 					a, err = internal.GetSourceForgeByRss(sourceforge)
+					if err != nil {
+						return err
+					}
+				}
+
+				downloadLink, err = a.GetDownloadLink(includedParts, excludedParts)
+				if err != nil {
+					return err
+				}
+			}
+			if codeberg != "" {
+				var a *internal.CodebergAPI
+				if tagName != "" {
+					a, err = internal.GetCodebergApiByTagName(codeberg, tagName)
+					if err != nil {
+						return err
+					}
+				} else {
+					a, err = internal.GetCodebergApiLatest(codeberg)
 					if err != nil {
 						return err
 					}

@@ -1,6 +1,6 @@
 # Release Downloader
 
-- Download release file with or without specified names from GitHub, Gitlab and Sourceforge
+- Download release file with or without specified names from GitHub, Gitlab, Sourceforge and Codeberg
 - Automatically select the latest version or manually select by tag name
 - Get the release file download link and use it with other download tools, such as curl, wget, aria2, etc.
 - Have a built-in file downloader to download file if no other file downloader installed
@@ -32,6 +32,16 @@ redl -gl "36189" -t "1.18.0" -p ".apk" -ep ".asc"
 ```sh
 # download release by rss url
 redl -sf "https://sourceforge.net/projects/mpv-player-windows/rss?path=/64bit" -p "x86_64" -p ".7z"
+```
+
+### Codeberg
+
+```sh
+# download latest release
+redl -cb "librewolf/bsys6" -p "windows-x86_64-setup.exe" -ep ".sig" -ep ".sha256sum"
+
+# download release by tag
+redl -cb "librewolf/bsys6" -t "151.0.4-1" -p "windows-x86_64-setup.exe" -ep ".sig" -ep ".sha256sum"
 ```
 
 ### Use with other download tools
